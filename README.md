@@ -1,4 +1,4 @@
-# FeatureExtractionSystem
+## FeatureExtractionSystem
 
 Project done for CISUC by Hugo Redinho and Carolina Gonçalves.
 
@@ -8,6 +8,39 @@ Consists of a feature extractor for song lyrics consisting of:
 - Content-Based Features
 - Structural-Based Features
 
+## Docker Implementation
+This docker implementation only takes into account the `all_features` extraction type. Other extraction types might need custom args and so a modded `Dockerfile`.
+
+### Docker Env Vars
+| Env | Default | Description |
+| --- | --- | --- |
+| feature | all_features | Type of extraction |
+| inputDirectory | `/src/Origem/` | The input directory path (must match the specified volume) |
+| outputFile | `/src/Output/outputFile.csv` | The output directory path (must match the specified volume) |
+
+### Volumes
+| Container Path | Description |
+| --- | --- |
+| `/src/Origem/` | Folder where the lyrics are accessed |
+| `/src/Output/` | Folder where the generated waveform images are saved |
+
+### Run Local Microservice
+Build local `lyricsExtractor` image from source
+```
+docker build -t lyricsextractorlocal:latest .
+```
+
+Run local `lyricsExtractor` image
+```
+docker run -it --rm -v "<Local DIR>":"/src/Origem" -v "<Local DIR>":"/src/Output/" lyricsextractorlocal:latest
+```
+
+Run official `lyricsExtractor` image
+```
+docker run -it --rm -v "<Local DIR>":"/src/Origem" -v "<Local DIR>":"/src/Output/" lyricsextractor:latest
+```
+
+## Java Project
 Every one of them has sub-features that can be extracted, either all at once or one at a time.
 
 The project can be run in two ways:
