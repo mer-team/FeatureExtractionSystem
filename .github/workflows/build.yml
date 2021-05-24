@@ -16,6 +16,7 @@ jobs:
     - name: Container Image Scan
       uses: azure/container-scan@v0
       with:
+        severity-threshold: CRITICAL
         image-name: lyricsprocessor:latest
 
     #- name: Run Local LyricsProcessor Docker Image
