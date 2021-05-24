@@ -1,4 +1,4 @@
-FROM openjdk:15-slim
+FROM openjdk:15-alpine
 
 ENV feature all_features
 ENV inputDirectory /src/Origem/

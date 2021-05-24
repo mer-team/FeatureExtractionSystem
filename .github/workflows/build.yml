@@ -1,0 +1,27 @@
+name: LyricsProcessor Node.js CI/CD
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout LyricsProcessor Project
+      uses: actions/checkout@v2
+    
+    - name: Build Local LyricsProcessor Docker Image
+      run: docker build -t lyricsprocessor:latest .
+
+    - name: Container Image Scan
+      uses: azure/container-scan@v0
+      with:
+        severity-threshold: CRITICAL
+        image-name: lyricsprocessor:latest
+
+    #- name: Run Local LyricsProcessor Docker Image
+    #  run: docker run -d -v "<Local DIR>":"/src/Origem" -v "<Local DIR>":"/src/Output/" --net=host  lyricsprocessor:latest
+
+    - name: Dump docker logs on failure
+      if: failure()
+      uses: jwalton/gh-docker-logs@v1
